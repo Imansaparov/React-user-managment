@@ -1,3 +1,3 @@
 export const messages = {
-  loggedIn: "You have successfully logged in",
+  loggedIn: "You have successfully updated",
 };

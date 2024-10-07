@@ -4,10 +4,9 @@ import { router } from "./router";
 import {GlobalStyles} from "@/shared/styles/global-styles.ts";
 import {CustomThemeProvider, darkTheme, lightTheme, useCustomTheme} from "@/app/theme-provider";
 
-
 export const App: React.FC = () => {
     return (
-        <CustomThemeProvider>  {/* Wrap the whole app with the CustomThemeProvider */}
+        <CustomThemeProvider>
             <ThemeWrapper />
         </CustomThemeProvider>
     );

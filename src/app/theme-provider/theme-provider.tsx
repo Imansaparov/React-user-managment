@@ -1,9 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import {ThemeContextType, ThemeProviderProps} from "@/app/theme-provider/types.ts";
 
-interface ThemeContextType {
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -15,9 +12,6 @@ export const useCustomTheme = (): ThemeContextType => {
   return context;
 };
 
-interface ThemeProviderProps {
-  children: ReactNode;
-}
 
 export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
