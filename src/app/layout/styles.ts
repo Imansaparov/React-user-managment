@@ -5,10 +5,10 @@ const main = css`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 62px 0;
+  padding: 24px 0;
 
   @media screen and (max-width: ${breakpoints.md}) {
-    padding: 42px 0;
+    padding: 32px 0;
   }
 `;
 

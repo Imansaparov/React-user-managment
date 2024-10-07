@@ -1,12 +1,12 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import {TextField, Button, Select, MenuItem, FormControl, InputLabel, Box} from '@mui/material';
 
-import {User, UserFormProps} from '@/shared/types/user';
+import {UserType, UserFormProps} from '@/shared/types/user';
 
 
 const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
-    const { control, handleSubmit } = useForm<User>({
+    const { control, handleSubmit } = useForm<UserType>({
         defaultValues: user || { name: '', email: '', status: 'active' },
     });
 
@@ -56,18 +56,20 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Status</InputLabel>
                         <Select {...field}>
-                            <MenuItem value="active">Active</MenuItem>
-                            <MenuItem value="inactive">Inactive</MenuItem>
+                            <MenuItem value="active" sx={{ color: 'black' }}>Active</MenuItem>
+                            <MenuItem value="inactive" sx={{ color: 'black' }}>Inactive</MenuItem>
                         </Select>
                     </FormControl>
                 )}
             />
+            <Box sx={{display: 'flex', justifyContent: 'end', mt:2 }}>
             <Button type="submit" variant="contained" color="primary" style={{ marginRight: 10 }}>
                 {user ? 'Update' : 'Add'} User
             </Button>
-            <Button onClick={onCancel} variant="contained" color="secondary">
+            <Button onClick={onCancel} variant="contained" color="error">
                 Cancel
             </Button>
+            </Box>
         </form>
     );
 };

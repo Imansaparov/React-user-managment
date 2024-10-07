@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     Table,
     TableBody,
@@ -16,13 +16,19 @@ import {
     Fade,
     FormControl,
     InputLabel,
-    MenuItem, SelectChangeEvent,
-} from '@mui/material';
+    MenuItem,
+    SelectChangeEvent, Box,
+} from "@mui/material";
 
-import {Add as AddIcon, ArrowDownward, ArrowUpward, Edit as EditIcon} from '@mui/icons-material';
+import {
+    Add as AddIcon,
+    ArrowDownward,
+    ArrowUpward,
+    Edit as EditIcon,
+} from "@mui/icons-material";
 
-import {User, UserListViewProps, SortOrder, StatusFilterType} from '@/shared/types/user';
-import UserForm from '@/features/user-form/user-form.tsx';
+import { UserListViewProps } from "@/shared/types/user";
+import UserForm from "@/features/user-form/user-form.tsx";
 
 import {
     StyledTableContainer,
@@ -37,8 +43,8 @@ import {
     StyledButton,
     StyledSelect,
     SortButtons,
-} from './styles.ts';
-
+} from "../style/styles.ts";
+import {ThemeToggle} from "@/features/theme-toggle/theme-toggle.tsx";
 
 const UserListView: React.FC<UserListViewProps> = ({
                                                        users,
@@ -60,21 +66,41 @@ const UserListView: React.FC<UserListViewProps> = ({
                                                        onStatusFilterChange,
                                                    }) => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-;
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    if (loading) return <Fade in={true}><Typography variant="h6" align="center">Loading...</Typography></Fade>;
-    if (error) return <Typography color="error" variant="h6" align="center">Error: {error}</Typography>;
+    const handleStatusFilterChange = (event: SelectChangeEvent<unknown>) => {
+        const value = event.target.value;
+        if (value === "all" || value === "active" || value === "inactive") {
+            onStatusFilterChange(value);
+        }
+    };
+
+    if (loading)
+        return (
+            <Fade in={true}>
+                <Typography variant="h6" align="center">
+                    Loading...
+                </Typography>
+            </Fade>
+        );
+    if (error)
+        return (
+            <Typography color="error" variant="h6" align="center">
+                Error: {error}
+            </Typography>
+        );
 
     return (
         <UserListViewWrapper>
+            <Box sx={{display: 'flex', justifyContent: 'space-between',}}>
             <HeaderSection>
                 <StyledTitle>User Management</StyledTitle>
             </HeaderSection>
-
+            <ThemeToggle />
+            </Box>
             <FilterAndAddSection>
                 <StyledTextField
-                    label="Filter by name"
+                    placeholder="Filter by name and email"
                     variant="outlined"
                     fullWidth
                     value={filter}
@@ -84,17 +110,23 @@ const UserListView: React.FC<UserListViewProps> = ({
                     <InputLabel>Status</InputLabel>
                     <StyledSelect
                         value={statusFilter}
-                        onChange={(e: SelectChangeEvent<StatusFilterType>) => onStatusFilterChange(e.target.value as StatusFilterType)}
+                        onChange={handleStatusFilterChange}
                         label="Status"
                     >
-                        <MenuItem value="all">All</MenuItem>
-                        <MenuItem value="active">Active</MenuItem>
-                        <MenuItem value="inactive">Inactive</MenuItem>
+                        <MenuItem value="all" sx={{ color: "black" }}>
+                            All
+                        </MenuItem>
+                        <MenuItem value="active" sx={{ color: "black" }}>
+                            Active
+                        </MenuItem>
+                        <MenuItem value="inactive" sx={{ color: "black" }}>
+                            Inactive
+                        </MenuItem>
                     </StyledSelect>
                 </FormControl>
                 <SortButtons>
-                    <IconButton onClick={() => onSort(sortBy || 'name')} color="primary">
-                        {sortOrder === 'asc' ? <ArrowUpward /> : <ArrowDownward />}
+                    <IconButton onClick={() => onSort(sortBy || "name")} color="primary">
+                        {sortOrder === "asc" ? <ArrowUpward /> : <ArrowDownward />}
                     </IconButton>
                 </SortButtons>
                 <StyledButton
@@ -114,9 +146,8 @@ const UserListView: React.FC<UserListViewProps> = ({
                             <TableRow>
                                 <StyledTableCell>
                                     <TableSortLabel
-                                        active={sortBy === 'name'}
-                                        direction={sortBy === 'name' ? sortOrder : 'asc'}
-                                        onClick={() => handleSort('name')}
+                                        active={sortBy === "name"}
+                                        direction={sortBy === "name" ? sortOrder : "asc"}
                                     >
                                         Name
                                     </TableSortLabel>
@@ -124,9 +155,8 @@ const UserListView: React.FC<UserListViewProps> = ({
                                 {!isMobile && <StyledTableCell>Email</StyledTableCell>}
                                 <StyledTableCell>
                                     <TableSortLabel
-                                        active={sortBy === 'status'}
-                                        direction={sortBy === 'status' ? sortOrder : 'asc'}
-                                        onClick={() => handleSort('status')}
+                                        active={sortBy === "status"}
+                                        direction={sortBy === "status" ? sortOrder : "asc"}
                                     >
                                         Status
                                     </TableSortLabel>
@@ -142,7 +172,7 @@ const UserListView: React.FC<UserListViewProps> = ({
                                     <TableCell>
                                         <Chip
                                             label={user.status}
-                                            color={user.status === 'active' ? 'success' : 'default'}
+                                            color={user.status === "active" ? "success" : "default"}
                                             size="small"
                                         />
                                     </TableCell>
@@ -161,15 +191,11 @@ const UserListView: React.FC<UserListViewProps> = ({
                     </Table>
                 </StyledTableContainer>
             </Paper>
-            <Modal
-                open={isModalOpen}
-                onClose={onCloseModal}
-                closeAfterTransition
-            >
+            <Modal open={isModalOpen} onClose={onCloseModal} closeAfterTransition>
                 <Fade in={isModalOpen}>
                     <ModalContent>
                         <Typography variant="h6" component="h2" gutterBottom>
-                            {editingUser ? 'Edit User' : 'Add New User'}
+                            {editingUser ? "Edit User" : "Add New User"}
                         </Typography>
                         <UserForm
                             user={editingUser}

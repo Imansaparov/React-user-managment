@@ -1,4 +1,4 @@
-@import 'react-toastify/dist/ReactToastify.css';
+
 
 
 :root {
@@ -11,7 +11,7 @@
 body {
     font-size: 16px;
     color: white;
-    font-family: var(--font-primary);
+    font-family: var(--font-primary), serif;
     background-color: black;
 }
 
@@ -34,12 +34,3 @@ body {
     }
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance: textfield;
-}
